@@ -154,3 +154,69 @@ export const addPromos = (dishes) => ({
     type: ActionTypes.ADD_PROMOS,
     payload: dishes
 });
+
+export const fetchLeaders = () => (dispatch) => {
+    dispatch(leadersLoading(true));
+    return fetch(baseUrl+'leaders')
+        .then( response => {
+            if(response.ok)
+            {
+                return response;
+            }
+            else{
+                var err = new Error("Error " + response.status + " : " + response.statusText);
+                err.response = response;
+                throw err;
+            }
+        },
+        error =>{
+            var err = new Error(error.message);
+            throw err;
+        })
+        .then(response => response.json())
+        .then(leaders => dispatch(addLeaders(leaders)))
+        .catch(err => dispatch(leadersFailed(err)))
+};
+
+export const addLeaders = (dishes) => ({
+    type: ActionTypes.ADD_LEADERS,
+    payload: dishes
+});
+
+export const leadersLoading = ()=>({
+    type: ActionTypes.LEADERS_LOADING
+});
+
+export const leadersFailed = (errmess)=>({
+    type: ActionTypes.LEADERS_FAILED,
+    payload: errmess
+});
+
+export const postFeedback = ( feedback ) => () =>{
+
+    const newFeedback = {...feedback , date: new Date().toISOString()};
+    return fetch( baseUrl+'feedback',{
+            method : 'POST',
+            body : JSON.stringify(newFeedback),
+            headers:{
+                'Content-Type': 'application/json'
+            },
+            credentials: 'same-origin'
+        })
+        .then( response => {
+            if(response.ok){
+                return response;
+            }
+            else{
+                var errMess = new Error(response.message);
+                throw errMess;
+            }
+        },
+        err => {
+            var errMess = new Error(err.message);
+            throw errMess; 
+        })
+        .then( response => response.json() )
+        .then( response => alert(JSON.stringify(response)) )
+        .catch( (err) => console.log(err));
+}
