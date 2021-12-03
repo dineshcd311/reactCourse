@@ -1,3 +1,7 @@
+# React App
+I did this as part of a Coursera class on React.
+This application incorporates a number of React concepts, including Redux, Hooks, React Router, and more.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
