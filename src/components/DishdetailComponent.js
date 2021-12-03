@@ -29,7 +29,7 @@ import { baseUrl } from '../shared/baseUrl';
         {
             alert(JSON.stringify(values));
             this.commentToggler();
-            this.props.addComment(this.props.dishId, values.rating, values.author, values.comment);
+            this.props.postComment(this.props.dishId, values.rating, values.author, values.comment);
         }
 
         render(){
@@ -135,7 +135,7 @@ import { baseUrl } from '../shared/baseUrl';
                     <ul className="list-unstyled">
                        {final}
                     </ul>
-                    <CommentForm dishId={props.dishId} addComment={props.addComment}/>
+                    <CommentForm dishId={props.dishId} postComment={props.postComment}/>
                 </div>
             );
         }
@@ -177,7 +177,7 @@ import { baseUrl } from '../shared/baseUrl';
                     </div>
                     <div className='row'>
                         <RenderDish dish={props.selectedDish}/>
-                        <RenderComments comments={props.comments} addComment={props.addComment} dishId={props.selectedDish.id}/>
+                        <RenderComments comments={props.comments} postComment={props.postComment} dishId={props.selectedDish.id}/>
                     </div>
                 </div>
                     
