@@ -27,6 +27,7 @@ import { Link } from 'react-router-dom';
         {
             alert(JSON.stringify(values));
             this.commentToggler();
+            this.props.addComment(this.props.dishId, values.rating, values.author, values.comment);
         }
 
         render(){
@@ -57,7 +58,7 @@ import { Link } from 'react-router-dom';
                                 <Row className="form-group">
                                     <Col  m={1}>
                                         <Label htmlFor="yourname">Your Name</Label>
-                                        <Control.text model=".name" id="yourname" name="yourname"
+                                        <Control.text model=".author" id="yourname" name="yourname"
                                         className="form-control"
                                         validators={{
                                             minLength:minLength(3), maxLength:maxLength(15)
@@ -65,7 +66,7 @@ import { Link } from 'react-router-dom';
                                         />
                                         <Errors
                                             className="text-danger"
-                                            model=".name"
+                                            model=".author"
                                             show="touched"
                                             messages={
                                                 {
@@ -121,7 +122,7 @@ import { Link } from 'react-router-dom';
                 return(
                     <li key={comment.id}>
                         <p>{comment.comment}</p>
-                        <p>-- {comment.author}</p> 
+                        <p>-- {comment.author}, {new Intl.DateTimeFormat('en-US',{ year: 'numeric', month: 'short', day:'2-digit'}).format(new Date(Date.parse(comment.date)))}</p> 
                     </li>
                 );
             });
@@ -132,7 +133,7 @@ import { Link } from 'react-router-dom';
                     <ul className="list-unstyled">
                        {final}
                     </ul>
-                    <CommentForm/>
+                    <CommentForm dishId={props.dishId} addComment={props.addComment}/>
                 </div>
             );
         }
@@ -156,7 +157,7 @@ import { Link } from 'react-router-dom';
                     </div>
                     <div className='row'>
                         <RenderDish dish={props.selectedDish}/>
-                        <RenderComments comments={props.comments}/>
+                        <RenderComments comments={props.comments} addComment={props.addComment} dishId={props.selectedDish.id}/>
                     </div>
                 </div>
                     
